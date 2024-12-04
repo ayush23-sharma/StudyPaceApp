@@ -14,6 +14,7 @@ class BalloonActivity : AppCompatActivity() {
 
     private var currentLevel = 1
     private lateinit var balloonImageView: ImageView
+    private val handler = Handler(Looper.getMainLooper())
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,7 +33,7 @@ class BalloonActivity : AppCompatActivity() {
         super.onResume()
         val completedTasks = TaskManager.getTaskStatus().count { it }
 
-        if (completedTasks >= 8) { // Check for completion of 8 tasks
+        if (completedTasks >= 4) { // Check for completion of 8 tasks
             triggerBurstEffect()
         } else {
             currentLevel = completedTasks + 1
@@ -55,12 +56,9 @@ class BalloonActivity : AppCompatActivity() {
     private fun resizeBalloonImage() {
         val newSize = when (currentLevel) {
             1 -> 150
-            2 -> 200
-            3 -> 200
-            4 -> 200
+            in 2..4 -> 200
             5 -> 250
             6 -> 300
-            7 -> 350
             else -> 350
         }
 
@@ -75,6 +73,7 @@ class BalloonActivity : AppCompatActivity() {
 
     private fun triggerBurstEffect() {
         // Play distorted balloon sequence before bursting
+        handler.removeCallbacksAndMessages(null) // Clear any existing callbacks
         val distortedImages = listOf(
             R.drawable.balloon_fragment1, // Highly distorted
             R.drawable.balloon_fragment2  // About to burst
@@ -87,7 +86,7 @@ class BalloonActivity : AppCompatActivity() {
                 if (index < distortedImages.size) {
                     balloonImageView.setImageResource(distortedImages[index])
                     index++
-                    handler.postDelayed(this, 200) // Show each distorted balloon for 200ms
+                    handler.postDelayed(this, 100) // Show each distorted balloon for 200ms
                 } else {
                     // Show the burst fragments
                     playFragmentAnimation()
@@ -106,14 +105,14 @@ class BalloonActivity : AppCompatActivity() {
         val animatorSet = AnimatorSet()
 
         animatorSet.playTogether(shrinkAnimatorX, shrinkAnimatorY)
-        animatorSet.duration = 500 // Shrink over 500ms
+        animatorSet.duration = 300 // Shrink over 500ms
         animatorSet.start()
 
         // Transition to the reward screen after showing fragments
         Handler(Looper.getMainLooper()).postDelayed({
             startActivity(Intent(this, RewardActivity::class.java))
             finish()
-        }, 800) // Wait 800ms to let the burst effect play out
+        }, 400) // Wait 800ms to let the burst effect play out
     }
 }
 

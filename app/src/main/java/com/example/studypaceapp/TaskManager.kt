@@ -4,9 +4,9 @@ import android.content.Context
 import android.content.SharedPreferences
 
 object TaskManager {
-    private const val PREF_NAME = "TaskPreferences"
-    private const val KEY_TASKS = "Tasks"
-    private const val KEY_STATUS = "TaskStatus"
+    private const val PREF_NAME = "TaskPreferences1"
+    private const val KEY_TASKS = "Tasks1"
+    private const val KEY_STATUS = "TaskStatus1"
 
     private lateinit var sharedPreferences: SharedPreferences
 
@@ -23,7 +23,13 @@ object TaskManager {
         val savedStatus = sharedPreferences.getString(KEY_STATUS, null)
 
         tasks = savedTasks?.toMutableList() ?: mutableListOf()
-        taskStatus = savedStatus?.split(",")?.map { it == "true" }?.toMutableList() ?: mutableListOf()
+       // taskStatus = savedStatus?.split(",")?.map { it == "true" }?.toMutableList() ?: mutableListOf()
+        taskStatus = if (!savedStatus.isNullOrEmpty()) {
+            val statuses = savedStatus.split(",").map { it == "true" }
+            if (statuses.size == tasks.size) statuses.toMutableList() else MutableList(tasks.size) { false }
+        } else {
+            MutableList(tasks.size) { false }
+        }
     }
 
     fun saveTasks() {
@@ -46,8 +52,10 @@ object TaskManager {
     }
 
     fun resetTasks() {
+
         tasks.clear()
         taskStatus.clear()
+
         saveTasks()
     }
 
