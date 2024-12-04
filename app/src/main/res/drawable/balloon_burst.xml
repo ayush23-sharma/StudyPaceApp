@@ -1,0 +1,7 @@
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android"
+    android:oneshot="true">
+    <item android:drawable="@drawable/balloon_level4" android:duration="300" />
+    <item android:drawable="@drawable/balloon_fragment1" android:duration="150" />
+    <item android:drawable="@drawable/balloon_fragment2" android:duration="150" />
+    <item android:drawable="@drawable/balloon_fragment3" android:duration="500" />
+</animation-list>

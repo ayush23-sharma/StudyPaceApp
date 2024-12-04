@@ -1,0 +1,33 @@
+<!-- res/layout/activity_reward.xml -->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="16dp"
+    android:background="#FAFAFA">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Congratulations!"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="16dp"
+        android:gravity="center" />
+
+    <ImageView
+        android:id="@+id/badgeImageView"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:src="@drawable/badge"
+        android:contentDescription="Badge Image" />
+
+    <Button
+        android:id="@+id/startOverButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Start Over"
+        android:layout_marginTop="16dp" />
+</LinearLayout>
